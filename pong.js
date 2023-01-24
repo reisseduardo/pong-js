@@ -1,21 +1,19 @@
 const canvasEl = document.querySelector("canvas");
 const canvasCtx = canvasEl.getContext("2d");
-
+//campo
 const field = {
     w: window.innerWidth,
     h: window.innerHeight,
     draw: function () {
-        //desenho do campo
         canvasCtx.fillStyle = "#286047";
         canvasCtx.fillRect(0, 0, this.w, this.h)
     }
 }
-
+//linha central
 const line = {
     w: 15,
     h: field.h,
     draw: function () {
-        //desnho da linha central
         canvasCtx.fillStyle = "#FFFFFF";
         canvasCtx.fillRect(field.w / 2 - this.w / 2, 0, this.w, field.h);
     }
@@ -25,7 +23,7 @@ const mouse = {
     x: 0,
     y: 0
 }
-
+//raquete jogador
 const leftPaddle = {
     x: 10,
     y: field.h / 2,
@@ -35,13 +33,12 @@ const leftPaddle = {
         this.y = mouse.y;
     },
     draw: function () {
-        //desenho da raquete esquerda
         canvasCtx.fillStyle = "#FFFFFF";
         canvasCtx.fillRect(this.x, this.y, this.w, this.h);
         this._move();
     }
 }
-
+//raquete oponente
 const rightPaddle = {
     x: field.w - line.w - 10,
     y: field.h / 2,
@@ -51,13 +48,12 @@ const rightPaddle = {
         this.y = ball.y;
     },
     draw: function () {
-        //desenho da raquete direita
         canvasCtx.fillStyle = "#FFFFFF";
         canvasCtx.fillRect(this.x, this.y, this.w, this.h);
         this._move();
     }
 }
-
+//bolinha
 const ball = {
     x: field.w / 2,
     y: field.h / 2,
@@ -66,25 +62,18 @@ const ball = {
     yDir: 1,
     xDir: 1,
     _calcPosition: function () {
-        if (this.y > field.h || this.y < 0) {
-            this._reverseY();
+        if (this.y > field.h - this.r || this.y < this.r) {
+            this.yDir *= -1;
         }
         if (this.x > field.w || this.x < 0) {
-            this._reverseX();
+            this.xDir *= -1;
         }
-    },
-    _reverseX: function () {
-        this.xDir *= -1;
-    },
-    _reverseY: function () {
-        this.yDir *= -1;
     },
     _move: function () {
         this.x += this.xDir * this.speed;
         this.y += this.yDir * this.speed;
     },
     draw: function () {
-        //desenho da bolinha
         canvasCtx.fillStyle = "#FFFFFF";
         canvasCtx.beginPath();
         canvasCtx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
@@ -94,12 +83,12 @@ const ball = {
     }
 
 }
-
+//setup
 function setup() {
     canvasEl.width = canvasCtx.width = window.innerWidth;
     canvasEl.height = canvasCtx.height = window.innerHeight;
 }
-
+//desenhos
 function draw() {
     //campo
     field.draw();
@@ -110,7 +99,7 @@ function draw() {
     //bolinha
     ball.draw();
 }
-
+//animação
 window.animateFrame = (function () {
     return (
         window.requestAnimationFrame ||
@@ -123,15 +112,15 @@ window.animateFrame = (function () {
         }
     )
 })()
-
+//função principal a ser chamada no carregamento
 function main() {
     animateFrame(main);
     draw();
 }
-
+//chamadas
 setup();
 main();
-
+//temp
 canvasEl.addEventListener('mousemove', function (e) {
     mouse.x = e.pageX;
     mouse.y = e.pageY;
