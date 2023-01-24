@@ -23,9 +23,10 @@ const mouse = {
     x: 0,
     y: 0
 }
+const gapX = 10;
 //raquete jogador
 const leftPaddle = {
-    x: 10,
+    x: gapX,
     y: field.h / 2,
     w: line.w,
     h: 200,
@@ -40,7 +41,7 @@ const leftPaddle = {
 }
 //raquete oponente
 const rightPaddle = {
-    x: field.w - line.w - 10,
+    x: field.w - line.w - gapX,
     y: field.h / 2,
     w: line.w,
     h: 200,
@@ -62,6 +63,20 @@ const ball = {
     yDir: 1,
     xDir: 1,
     _calcPosition: function () {
+        if (this.x > field.w - this.r - rightPaddle.w - gapX) {
+            if (this.y + this.r > rightPaddle.y && this.y - this.r < rightPaddle.y + rightPaddle.h) {
+                this.xDir *= -1; //raquete oponente
+            } else {
+                //ponto
+            }
+        }
+        if (this.x < this.r + leftPaddle.w + gapX) {
+            if (this.y + this.r > leftPaddle.y && this.y - this.r < leftPaddle.y + leftPaddle.h) {
+                this.xDir *= -1; //raquete jogador
+            } else {
+                //ponto
+            }
+        }
         if (this.y > field.h - this.r || this.y < this.r) {
             this.yDir *= -1;
         }
