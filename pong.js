@@ -1,28 +1,78 @@
 const canvasEl = document.querySelector("canvas");
 const canvasCtx = canvasEl.getContext("2d");
 
-const lineW = 15;
+const field = {
+    w: window.innerWidth,
+    h: window.innerHeight,
+    draw: function () {
+        //desenho do campo
+        canvasCtx.fillStyle = "#286047";
+        canvasCtx.fillRect(0, 0, this.w, this.h)
+    }
+}
 
-function setup(){
+const line = {
+    w: 15,
+    h: field.h,
+    draw: function () {
+        //desnho da linha central
+        canvasCtx.fillStyle = "#FFFFFF";
+        canvasCtx.fillRect(field.w / 2 - this.w / 2, 0, this.w, field.h);
+    }
+}
+
+const leftPaddle = {
+    x: 10,
+    y: 240,
+    w: line.w,
+    h: 200,
+    draw: function () {
+        //desenho da raquete esquerda
+        canvasCtx.fillStyle = "#FFFFFF";
+        canvasCtx.fillRect(this.x, this.y, this.w, this.h);
+    }
+}
+
+const rightPaddle = {
+    x: field.w - line.w - 10,
+    y: 240,
+    w: line.w,
+    h: 200,
+    draw: function () {
+        //desenho da raquete direita
+        canvasCtx.fillStyle = "#FFFFFF";
+        canvasCtx.fillRect(this.x, this.y, this.w, this.h);
+    }
+}
+
+const ball = {
+    x: 120,
+    y: 240,
+    r: 20,
+    draw: function () {
+        //desenho da bolinha
+        canvasCtx.fillStyle = "#FFFFFF";
+        canvasCtx.beginPath();
+        canvasCtx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
+        canvasCtx.fill();
+    }
+
+}
+
+function setup() {
     canvasEl.width = canvasCtx.width = window.innerWidth;
     canvasEl.height = canvasCtx.height = window.innerHeight;
 }
 
-function draw(){
-    //desenho do campo
-    canvasCtx.fillStyle = "#286047";
-    canvasCtx.fillRect(0, 0, window.innerWidth, window.innerHeight)
-    //desnho da linha central
-    canvasCtx.fillStyle = "#FFFFFF";
-    canvasCtx.fillRect(window.innerWidth/2 - lineW/2, 0, lineW, window.innerHeight);
-    //desenho da raquete esquerda
-    canvasCtx.fillRect(10, 240, lineW, 200);
-    //desenho da raquete direita
-    canvasCtx.fillRect(window.innerWidth - lineW - 10, 240, lineW, 200);
-    //desenho da bolinha
-    canvasCtx.beginPath();
-    canvasCtx.arc(120, 240, 20, 0, 2* Math.PI, false);
-    canvasCtx.fill();
+function draw() {
+    //campo
+    field.draw();
+    line.draw();
+    //raquetes
+    leftPaddle.draw();
+    rightPaddle.draw();
+    //bolinha
+    ball.draw();
 }
 
 setup();
