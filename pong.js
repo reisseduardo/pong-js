@@ -65,23 +65,23 @@ const ball = {
     _calcPosition: function () {
         if (this.x > field.w - this.r - rightPaddle.w - gapX) {
             if (this.y + this.r > rightPaddle.y && this.y - this.r < rightPaddle.y + rightPaddle.h) {
-                this.xDir *= -1; //raquete oponente
+                this.xDir *= -1; //colisão raquete oponente
             } else {
                 //ponto
             }
         }
         if (this.x < this.r + leftPaddle.w + gapX) {
             if (this.y + this.r > leftPaddle.y && this.y - this.r < leftPaddle.y + leftPaddle.h) {
-                this.xDir *= -1; //raquete jogador
+                this.xDir *= -1; //colisão raquete jogador
             } else {
                 //ponto
             }
         }
         if (this.y > field.h - this.r || this.y < this.r) {
-            this.yDir *= -1;
+            this.yDir *= -1; //colisão borda inferior e superior do campo
         }
         if (this.x > field.w || this.x < 0) {
-            this.xDir *= -1;
+            this.xDir *= -1; //temp colisão bordas laterais a ser substituida pelo ponto
         }
     },
     _move: function () {
