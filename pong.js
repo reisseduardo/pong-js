@@ -18,7 +18,25 @@ const line = {
         canvasCtx.fillRect(field.w / 2 - this.w / 2, 0, this.w, field.h);
     }
 }
-
+//placar do jogo
+const score = {
+    player: 0,
+    computer: 0,
+    increasePlayer: function () {
+        this.player++;
+    },
+    increaseComputer: function () {
+        this.computer++;
+    },
+    draw: function () {
+        canvasCtx.font = "bold 2rem Arial";
+        canvasCtx.textAlign = "center";
+        canvasCtx.textBaseline = "top";
+        canvasCtx.fillStyle = "#FFFFFF";
+        canvasCtx.fillText(this.player, field.w / 4, 30);
+        canvasCtx.fillText(this.computer, field.w / 2 + field.w / 4, 30);
+    }
+}
 const mouse = {
     x: 0,
     y: 0
@@ -67,22 +85,24 @@ const ball = {
             if (this.y + this.r > rightPaddle.y && this.y - this.r < rightPaddle.y + rightPaddle.h) {
                 this.xDir *= -1; //colisão raquete oponente
             } else {
-                //ponto
+                score.increasePlayer();//ponto
+                this.reset();
             }
         }
         if (this.x < this.r + leftPaddle.w + gapX) {
             if (this.y + this.r > leftPaddle.y && this.y - this.r < leftPaddle.y + leftPaddle.h) {
                 this.xDir *= -1; //colisão raquete jogador
             } else {
-                //ponto
+                score.increaseComputer();//ponto
+                this.reset();
             }
         }
         if (this.y > field.h - this.r || this.y < this.r) {
             this.yDir *= -1; //colisão borda inferior e superior do campo
         }
-        if (this.x > field.w || this.x < 0) {
-            this.xDir *= -1; //temp colisão bordas laterais a ser substituida pelo ponto
-        }
+        // if (this.x > field.w || this.x < 0) {
+        //     this.xDir *= -1; //temp colisão bordas laterais a ser substituida pelo ponto
+        // }
     },
     _move: function () {
         this.x += this.xDir * this.speed;
@@ -95,8 +115,11 @@ const ball = {
         canvasCtx.fill();
         this._move();
         this._calcPosition();
+    },
+    reset: function () {
+        this.x = field.w / 2;
+        this.y = field.h / 2;
     }
-
 }
 //setup
 function setup() {
@@ -108,6 +131,7 @@ function draw() {
     //campo
     field.draw();
     line.draw();
+    score.draw();
     //raquetes
     leftPaddle.draw();
     rightPaddle.draw();
