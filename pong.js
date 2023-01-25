@@ -97,6 +97,7 @@ const ball = {
                 this.xDir *= -1; //colisão raquete oponente
             } else {
                 score.increasePlayer();//ponto
+                this.yDir *= -1;
                 rightPaddle.speedUp();
                 this.reset();
             }
@@ -107,6 +108,7 @@ const ball = {
             } else {
                 score.increaseComputer();//ponto
                 rightPaddle.speedDown();
+                this.yDir *= -1;
                 this.reset();
             }
         }
@@ -128,8 +130,7 @@ const ball = {
     },
     reset: function () {
         this.x = field.w / 2;
-        this.y = field.h / 2;
-        this.yDir *= -1;
+        this.y = field.h / 2;        
     }
 }
 //setup
