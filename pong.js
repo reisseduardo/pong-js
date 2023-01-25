@@ -63,8 +63,19 @@ const rightPaddle = {
     y: field.h / 2,
     w: line.w,
     h: 200,
+    speed: 1,
     _move: function () {
-        this.y = ball.y;
+        if (this.y + this.h / 2 < ball.y + ball.r) {
+            this.y += this.speed;
+        } else {
+            this.y -= this.speed;
+        }
+    },
+    speedUp: function () {
+        this.speed = this.speed + 0.5;
+    },
+    speedDown: function () {
+        this.speed = this.speed - 0.5;
     },
     draw: function () {
         canvasCtx.fillStyle = "#FFFFFF";
@@ -77,7 +88,7 @@ const ball = {
     x: field.w / 2,
     y: field.h / 2,
     r: 20,
-    speed: 5,
+    speed: 10,
     yDir: 1,
     xDir: 1,
     _calcPosition: function () {
@@ -86,6 +97,7 @@ const ball = {
                 this.xDir *= -1; //colisão raquete oponente
             } else {
                 score.increasePlayer();//ponto
+                rightPaddle.speedUp();
                 this.reset();
             }
         }
@@ -94,15 +106,13 @@ const ball = {
                 this.xDir *= -1; //colisão raquete jogador
             } else {
                 score.increaseComputer();//ponto
+                rightPaddle.speedDown();
                 this.reset();
             }
         }
         if (this.y > field.h - this.r || this.y < this.r) {
             this.yDir *= -1; //colisão borda inferior e superior do campo
         }
-        // if (this.x > field.w || this.x < 0) {
-        //     this.xDir *= -1; //temp colisão bordas laterais a ser substituida pelo ponto
-        // }
     },
     _move: function () {
         this.x += this.xDir * this.speed;
@@ -119,6 +129,7 @@ const ball = {
     reset: function () {
         this.x = field.w / 2;
         this.y = field.h / 2;
+        this.yDir *= -1;
     }
 }
 //setup
