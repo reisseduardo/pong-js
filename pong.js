@@ -37,10 +37,6 @@ const score = {
         canvasCtx.fillText(this.computer, field.w / 2 + field.w / 4, 30);
     }
 }
-const mouse = {
-    x: 0,
-    y: 0
-}
 const gapX = 10;
 //raquete jogador
 const leftPaddle = {
@@ -48,8 +44,16 @@ const leftPaddle = {
     y: field.h / 2,
     w: line.w,
     h: 200,
+    speed: 2,
     _move: function () {
-        this.y = mouse.y;
+        document.addEventListener("keydown", function (e) {
+            if (e.key == "ArrowUp") {
+                leftPaddle.y += leftPaddle.speed * -1;
+            };
+            if (e.key == "ArrowDown") {
+                leftPaddle.y += leftPaddle.speed * 1;
+            };
+        })
     },
     draw: function () {
         canvasCtx.fillStyle = "#FFFFFF";
@@ -97,7 +101,6 @@ const ball = {
                 this.xDir *= -1; //colisão raquete oponente
             } else {
                 score.increasePlayer();//ponto
-                this.yDir *= -1;
                 rightPaddle.speedUp();
                 this.reset();
             }
@@ -108,7 +111,6 @@ const ball = {
             } else {
                 score.increaseComputer();//ponto
                 rightPaddle.speedDown();
-                this.yDir *= -1;
                 this.reset();
             }
         }
@@ -130,7 +132,7 @@ const ball = {
     },
     reset: function () {
         this.x = field.w / 2;
-        this.y = field.h / 2;        
+        this.y = field.h / 2;
     }
 }
 //setup
@@ -172,7 +174,7 @@ function main() {
 setup();
 main();
 //temp
-canvasEl.addEventListener('mousemove', function (e) {
-    mouse.x = e.pageX;
-    mouse.y = e.pageY;
-})
+// canvasEl.addEventListener('mousemove', function (e) {
+//     mouse.x = e.pageX;
+//     mouse.y = e.pageY;
+// })
