@@ -41,7 +41,7 @@ const gapX = 10;
 //raquete jogador
 const leftPaddle = {
     x: gapX,
-    y: field.h / 2,
+    y: field.h / 2 - 100,
     w: line.w,
     h: 200,
     speed: 2,
@@ -53,6 +53,12 @@ const leftPaddle = {
             if (e.key == "ArrowDown") {
                 leftPaddle.y += leftPaddle.speed * 1;
             };
+            if (leftPaddle.y + leftPaddle.h >= field.h) {
+                leftPaddle.y = field.h - leftPaddle.h;
+            }
+            if (leftPaddle.y <= 0) {
+                leftPaddle.y = 0;
+            }
         })
     },
     draw: function () {
@@ -64,7 +70,7 @@ const leftPaddle = {
 //raquete oponente
 const rightPaddle = {
     x: field.w - line.w - gapX,
-    y: field.h / 2,
+    y: field.h / 2 - 100,
     w: line.w,
     h: 200,
     speed: 1,
