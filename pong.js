@@ -26,11 +26,15 @@ let leftPaddleW = lineW;
 let leftPaddleH = 200;
 let leftPaddleX = gapX;
 let leftPaddleY = fieldH / 2 - leftPaddleH / 2
+let leftPaddleSpeed = 1;
+let arrowUp = "38";
+let arrowDown = "40";
 //raquete do computador
 let rightPaddleW = lineW;
 let rightPaddleH = 200;
 let rightPaddleX = fieldW - gapX - rightPaddleW;
-let rightPaddleY = fieldH / 2 - rightPaddleH / 2
+let rightPaddleY = fieldH / 2 - rightPaddleH / 2;
+let rightPaddleSpeed = 1;
 //desenhos
 function draw() {
     fieldDraw();
@@ -75,6 +79,7 @@ function game() {
     draw();
     ballMove();
     ballCollision();
+    computerMove();
 }
 function ballMove() {
     ballX += dirX * ballSpeed;
@@ -85,7 +90,8 @@ function ballCollision() {
         if (ballY + ballR > rightPaddleY && ballY - ballR < rightPaddleY + rightPaddleH) {
             dirX *= -1; //colisão raquete oponente
         } else {
-            increasePlayer();//ponto            
+            increasePlayer();//ponto    
+            speedUp();
             ballReset();
         }
     }
@@ -93,7 +99,8 @@ function ballCollision() {
         if (ballY + ballR > leftPaddleY && ballY - ballR < leftPaddleY + leftPaddleH) {
             dirX *= -1; //colisão raquete jogador
         } else {
-            increaseComputer();//ponto            
+            increaseComputer();//ponto   
+            speedDown();
             ballReset();
         }
     }
@@ -107,10 +114,52 @@ function ballReset() {
 }
 function increasePlayer() {
     playerScore++;
+    rightPaddleX = fieldW - gapX - rightPaddleW;
+    rightPaddleY = fieldH / 2 - rightPaddleH / 2;
 }
 function increaseComputer() {
     computerScore++;
+    rightPaddleX = fieldW - gapX - rightPaddleW;
+    rightPaddleY = fieldH / 2 - rightPaddleH / 2;
+}
+function playerMove(event) {
+    let path = event.keyCode;
+    if (path == "arrowUp") {
+        // leftPaddleY += leftPaddleSpeed * -1;
+        console.log("funciona");
+    };
+    if (path == "arrowDown") {
+        // leftPaddleY += leftPaddleSpeed * 1;
+        console.log("funciona");
+    };
+    if (leftPaddleY + leftPaddleH >= fieldH) {
+        leftPaddleY = fieldH - leftPaddleH;
+    }
+    if (leftPaddleY <= 0) {
+        leftPaddleY = 0;
+    }
+}
+function computerMove() {
+    if (rightPaddleY + rightPaddleH / 2 < ballY + ballR) {
+        rightPaddleY += rightPaddleSpeed;
+    } else {
+        rightPaddleY -= rightPaddleSpeed;
+    }
+    if (rightPaddleY + rightPaddleH >= fieldH) {
+        rightPaddleY = fieldH - rightPaddleH;
+    }
+    if (rightPaddleY <= 0) {
+        rightPaddleY = 0;
+    }
+}
+function speedUp() {
+    rightPaddleSpeed = rightPaddleSpeed + 0.5;
+}
+function speedDown() {
+    rightPaddleSpeed = rightPaddleSpeed - 0.5;
 }
 //CHAMADAS TEMP
 setup();
 setInterval(game, gameSpeed);
+
+document.onkeydown = playerMove;
