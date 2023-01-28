@@ -19,16 +19,14 @@ let ballR = 15;
 let ballX = fieldW / 2;
 let ballY = fieldH / 2;
 let dirX = 1;
-let dirY = 0;
+let dirY = 1;
 let ballSpeed = 3;
 //raquete do jogador
 let leftPaddleW = lineW;
 let leftPaddleH = 200;
 let leftPaddleX = gapX;
 let leftPaddleY = fieldH / 2 - leftPaddleH / 2
-let leftPaddleSpeed = 1;
-let arrowUp = "38";
-let arrowDown = "40";
+let leftPaddleSpeed = 15;
 //raquete do computador
 let rightPaddleW = lineW;
 let rightPaddleH = 200;
@@ -124,13 +122,11 @@ function increaseComputer() {
 }
 function playerMove(event) {
     let path = event.keyCode;
-    if (path == "arrowUp") {
-        // leftPaddleY += leftPaddleSpeed * -1;
-        console.log("funciona");
+    if (path == "38") {
+        leftPaddleY += leftPaddleSpeed * -1;        
     };
-    if (path == "arrowDown") {
-        // leftPaddleY += leftPaddleSpeed * 1;
-        console.log("funciona");
+    if (path == "40") {
+        leftPaddleY += leftPaddleSpeed * 1;        
     };
     if (leftPaddleY + leftPaddleH >= fieldH) {
         leftPaddleY = fieldH - leftPaddleH;
