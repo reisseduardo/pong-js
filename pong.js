@@ -19,8 +19,8 @@ let ballR = 15;
 let ballX = fieldW / 2;
 let ballY = fieldH / 2;
 let dirX = 1;
-let dirY = 1;
-let ballSpeed = 3;
+let dirY = Math.floor(Math.random() * 2) - 0.5;
+let ballSpeed = 5;
 //raquete do jogador
 let leftPaddleW = lineW;
 let leftPaddleH = 200;
@@ -112,11 +112,13 @@ function ballReset() {
 }
 function increasePlayer() {
     playerScore++;
+    dirY = Math.floor(Math.random() * 2) - 0.5;
     rightPaddleX = fieldW - gapX - rightPaddleW;
     rightPaddleY = fieldH / 2 - rightPaddleH / 2;
 }
 function increaseComputer() {
     computerScore++;
+    dirY = Math.floor(Math.random() * 2) - 0.5;
     rightPaddleX = fieldW - gapX - rightPaddleW;
     rightPaddleY = fieldH / 2 - rightPaddleH / 2;
 }
@@ -150,9 +152,15 @@ function computerMove() {
 }
 function speedUp() {
     rightPaddleSpeed = rightPaddleSpeed + 0.5;
+    if(rightPaddleSpeed >= 2){
+        rightPaddleSpeed = 2;
+    }
 }
 function speedDown() {
     rightPaddleSpeed = rightPaddleSpeed - 0.5;
+    if(rightPaddleSpeed <= 0.5){
+        rightPaddleSpeed = 0.5;
+    }
 }
 //CHAMADAS TEMP
 setup();
